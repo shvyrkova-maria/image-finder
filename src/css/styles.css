@@ -117,7 +117,7 @@ p {
 }
 
 .stats:hover,
-.photo-lightbox:hover ~ .stats {
+.photo:hover ~ .stats {
   opacity: 1;
 }
 

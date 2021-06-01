@@ -3,11 +3,9 @@ import cardTmpl from './templates/card-tmpl.hbs';
 import debounce from 'lodash.debounce';
 import ApiService from './js/api-service.js';
 import getRefs from './js/refs.js';
-require('fslightbox');
 
 const refs = getRefs();
 const imageSearch = new ApiService();
-const lightbox = new FsLightbox();
 
 //===== intersection observer
 const onEntry = entries => {
@@ -71,10 +69,6 @@ function onGalleryImageClick(e) {
   if (!e.target.classList.contains('photo')) {
     return;
   }
-  const lightboxImages = Array.from(document.querySelectorAll('.photo'));
-  const lightboxSources = lightboxImages.map(image => image.dataset.source);
-  lightbox.props.sources = [...lightboxSources];
-  lightbox.open(lightboxImages.indexOf(e.target));
 }
 
 //=====  gallery
