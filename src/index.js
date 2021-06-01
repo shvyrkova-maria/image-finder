@@ -68,7 +68,6 @@ function fetchGalleryImages() {
 
 function onGalleryImageClick(e) {
   e.preventDefault();
-
   if (!e.target.classList.contains('photo')) {
     return;
   }
@@ -83,9 +82,7 @@ function createGallery(images) {
   //   if (images.length === 0) {
   //     return createInfoNotice();
   //   } else {
-
   makeGalleryMarkup(images);
-
   //   }
 }
 
