@@ -36,21 +36,17 @@ function onInputFocusout() {
 }
 
 //===== fetch =====//
-function fetchGalleryImages() {
+async function fetchGalleryImages() {
   if (!imageSearch.query) {
     return;
   }
-  imageSearch.fetchImages().then(createGallery).catch(createErrorMsg);
+  try {
+    const images = await imageSearch.fetchImages();
+    createGallery(images);
+  } catch {
+    createErrorMsg();
+  }
 }
-
-// function onGalleryImageClick(e) {
-//   // e.preventDefault();
-
-//   if (!e.target.classList.contains('photo')) {
-//     return;
-//   }
-
-// }
 
 //===== gallery =====//
 
@@ -64,7 +60,7 @@ function clearGalleryMarkup() {
 
 function createGallery(images) {
   if (images.length === 0) {
-    return createInfoMsg();
+    createInfoMsg();
   } else {
     makeGalleryMarkup(images);
   }
@@ -88,3 +84,20 @@ function addObserver(elem) {
   });
   return observer.observe(elem);
 }
+
+// function onGalleryImageClick(e) {
+//   // e.preventDefault();
+
+//   if (!e.target.classList.contains('photo')) {
+//     return;
+//   }
+
+// }
+
+//===== FETCH
+// function fetchGalleryImages() {
+//   if (!imageSearch.query) {
+//     return;
+//   }
+//   imageSearch.fetchImages().then(createGallery).catch(createErrorMsg);
+// }
