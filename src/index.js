@@ -4,9 +4,19 @@ import debounce from 'lodash.debounce';
 import ApiService from './js/api-service.js';
 import getRefs from './js/refs.js';
 import { createErrorMsg, createInfoMsg } from './js/notifications.js';
+import { preloaderShow, preloaderHidden } from './js/loaders';
+import { ligthbox } from './js/gallery-ligthbox';
 
 const refs = getRefs();
 const imageSearch = new ApiService();
+
+preloaderShow();
+window.addEventListener('load', () => {
+  setTimeout(function () {
+    preloaderHidden();
+    refs.preloader.classList.add('is-hidden');
+  }, 1000);
+});
 
 addObserver(refs.sentinel);
 
@@ -14,7 +24,7 @@ addObserver(refs.sentinel);
 refs.search.addEventListener('input', debounce(onInputChange, 500));
 refs.search.addEventListener('focusin', onInputFocusin);
 refs.search.addEventListener('focusout', onInputFocusout);
-// refs.gallery.addEventListener('click', onGalleryImageClick);
+refs.gallery.addEventListener('click', onGalleryImageClick);
 
 function onInputChange(e) {
   imageSearch.query = e.target.value;
@@ -33,6 +43,18 @@ function onInputFocusout() {
   } else {
     onInputFocusin();
   }
+}
+
+function onGalleryImageClick(e) {
+  if (!e.target.classList.contains('photo')) {
+    return;
+  }
+
+  ligthbox.show(() => {
+    const ligthboxImage = document.querySelector('.ligthbox-image');
+    ligthboxImage.src = e.target.dataset.source;
+    ligthboxImage.alt = e.target.alt;
+  });
 }
 
 //===== fetch =====//
@@ -84,20 +106,3 @@ function addObserver(elem) {
   });
   return observer.observe(elem);
 }
-
-// function onGalleryImageClick(e) {
-//   // e.preventDefault();
-
-//   if (!e.target.classList.contains('photo')) {
-//     return;
-//   }
-
-// }
-
-//===== FETCH
-// function fetchGalleryImages() {
-//   if (!imageSearch.query) {
-//     return;
-//   }
-//   imageSearch.fetchImages().then(createGallery).catch(createErrorMsg);
-// }

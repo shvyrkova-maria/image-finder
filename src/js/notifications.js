@@ -1,4 +1,4 @@
-import { Notify, Report, Confirm, Loading } from 'notiflix';
+import { Notify } from 'notiflix';
 
 Notify.init({
   width: '280px',
